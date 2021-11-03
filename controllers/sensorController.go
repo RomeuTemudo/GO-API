@@ -11,9 +11,52 @@ func SensorList(c *fiber.Ctx) error {
 
 	var sensors []models.Sensor
 
-	database.DB.Find(&sensors)
+	param_id := c.Query("id")
+
+	if param_id == "" {
+
+		database.DB.Find(&sensors)
+	} else {
+
+		database.DB.First(&sensors, param_id)
+
+	}
 
 	return c.JSON(sensors)
+
+}
+
+func AddSensor(c *fiber.Ctx) error {
+
+	sensor := new(models.Sensor)
+
+	if err := c.BodyParser(sensor); err != nil {
+		return err
+	}
+
+	database.DB.Create(&sensor)
+
+	return c.JSON(fiber.Map{
+		"Status":  "Success",
+		"Message": "Boa burro , criaste um sensor!",
+	})
+
+}
+
+func UpdateSensor(c *fiber.Ctx) error {
+
+	sensor := new(models.Sensor)
+
+	if err := c.BodyParser(sensor); err != nil {
+		return err
+	}
+
+	database.DB.Model(&sensor).Where("sensor_id=?", sensor.SensorID).Select("sensor_name", "sensor_description", "category_id").Updates(models.Sensor{SensorName: sensor.SensorName, SensorDescription: sensor.SensorDescription, CategoryID: sensor.CategoryID})
+
+	return c.JSON(fiber.Map{
+		"Status":  "Success",
+		"Message": "Boa burro , criaste um sensor!",
+	})
 
 }
 
