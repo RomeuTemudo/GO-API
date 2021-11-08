@@ -17,5 +17,6 @@ func Setup(app *fiber.App) {
 	app.Post("/api/add_sensor", controllers.AddSensor)
 	app.Post("/api/update_sensor", controllers.UpdateSensor)
 	app.Get("/api/categories", controllers.GetCategories)
-
+	app.Post("/api/delete_sensor", controllers.DeleteSensor)
+	app.Get("/api/search_sensor", controllers.SensorSearch)
 }

@@ -9,7 +9,7 @@ import (
 
 func GetCategories(c *fiber.Ctx) error {
 
-	var categories []models.Category
+	var categories []models.SensorsCategories
 
 	database.DB.Find(&categories)
 
