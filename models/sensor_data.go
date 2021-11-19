@@ -9,5 +9,3 @@ type SensorValue struct {
 	Value     float32 `json:"value"`
 	Timestamp string  `gorm:"primaryKey;type:timestamp" json:"timestamp"`
 }
-
-//`gorm:"primaryKey;type:timestamp" json:"timestamp"`

@@ -13,7 +13,6 @@ func Setup(app *fiber.App) {
 	app.Get("/api/logged_in", controllers.LoggedIn)
 	app.Post("/api/logout", controllers.Logout)
 	app.Get("/api/sensor_list", controllers.SensorList)
-	//app.Get("/api/sensor_by_id", controllers.SensorById)
 	app.Post("/api/add_sensor", controllers.AddSensor)
 	app.Post("/api/update_sensor", controllers.UpdateSensor)
 	app.Get("/api/categories", controllers.GetCategories)
