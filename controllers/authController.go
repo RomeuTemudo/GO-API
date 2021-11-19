@@ -14,27 +14,6 @@ import (
 
 const SecretKey = "secret"
 
-func Register(c *fiber.Ctx) error {
-
-	var data map[string]string
-
-	if err := c.BodyParser(&data); err != nil {
-		return err
-	}
-
-	passwordHash, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
-
-	user := models.User{
-
-		UserEmail: data["email"],
-		Password:  passwordHash,
-	}
-
-	database.DB.Create(&user)
-
-	return c.JSON(user)
-}
-
 func Login(c *fiber.Ctx) error {
 
 	var data map[string]string
@@ -57,7 +36,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"])); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(data["password"])); err != nil {
 
 		c.Status(fiber.StatusBadRequest)
 
@@ -70,7 +49,7 @@ func Login(c *fiber.Ctx) error {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 
 		Issuer:    strconv.Itoa(int(user.UserID)),
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+		ExpiresAt: time.Now().Add(time.Hour * 12).Unix(),
 	})
 
 	token, err := claims.SignedString([]byte(SecretKey))

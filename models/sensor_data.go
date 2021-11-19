@@ -1,7 +1,13 @@
 package models
 
 type SensorData struct {
-	SensorID  int     `json:"id"` //key do param que vem do frontend
-	Value     float64 `json:"value"`
-	Timestamp int64   ` gorm: autoCreateTime time ;json:"timestamp"`
+	ID   int           `json:"id;omitempty"`
+	Data []SensorValue `json:"data"`
 }
+
+type SensorValue struct {
+	Value     float32 `json:"value"`
+	Timestamp string  `gorm:"primaryKey;type:timestamp" json:"timestamp"`
+}
+
+//`gorm:"primaryKey;type:timestamp" json:"timestamp"`
